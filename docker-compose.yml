@@ -1,7 +1,8 @@
-name: 'ecom-cms-test'
+name: "ecom-cms-test"
 
 volumes:
   db-data:
+  pgadmin-data:
 
 services:
   remix:
@@ -44,4 +45,6 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - 3080:80
+      - 30082:80
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin

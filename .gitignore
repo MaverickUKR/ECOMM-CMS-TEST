@@ -1,1 +1,11 @@
 .env
+docker-compose.yml
+mySchema.md
+package-lock.json
+routes.md
+tarasSchema.md
+task.md
+tsconfig.json
+dashboard.loader.ts
+admin.users.$id_.primary.tsx
+schema.prisma
