@@ -1,9 +1,3 @@
-/**
- * This is intended to be a basic starting point for linting in your app.
- * It relies on recommended configs out of the box for simplicity, but you can
- * and should modify this configuration to best suit your team's needs.
- */
-
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
@@ -25,7 +19,7 @@ module.exports = {
   extends: ['eslint:recommended'],
 
   rules: {
-    quotes: [2, 'single', {'avoidEscape': true}]
+    quotes: [2, 'single', { avoidEscape: true }],
   },
 
   overrides: [
@@ -45,16 +39,18 @@ module.exports = {
         },
         formComponents: ['Form'],
         linkComponents: [
-          {name: 'Link', linkAttribute: 'to'},
-          {name: 'NavLink', linkAttribute: 'to'},
+          { name: 'Link', linkAttribute: 'to' },
+          { name: 'NavLink', linkAttribute: 'to' },
         ],
         'import/resolver': {
-          typescript: {},
+          typescript: {
+            project: './tsconfig.json',
+          },
         },
       },
       rules: {
         'react/jsx-uses-react': 'warn',
-      }
+      },
     },
 
     // Typescript
@@ -70,6 +66,7 @@ module.exports = {
           },
           typescript: {
             alwaysTryTypes: true,
+            project: './tsconfig.json',
           },
         },
       },
