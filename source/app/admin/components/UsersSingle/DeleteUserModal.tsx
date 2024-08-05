@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Modal } from '@shopify/polaris';
+import { FC } from 'react';
+import { Modal, InlineStack, Text } from '@shopify/polaris';
 
 export type DeleteUserModalProps = {
   active: boolean;
@@ -16,22 +16,25 @@ const DeleteUserModal: FC<DeleteUserModalProps> = ({
     <Modal
       open={active}
       onClose={handleChange}
-      title='Вы точно хотите удалить этого пользователя?'
+      title='Are you sure you want to delete this user?'
       primaryAction={{
-        content: 'Да',
+        content: 'Yes',
         onAction: handleDelete,
       }}
       secondaryActions={[
         {
-          content: 'Нет',
+          content: 'No',
           onAction: handleChange,
         },
       ]}
     >
       <Modal.Section>
-        <div>
-          <p>Вы действительно хотите удалить этого пользователя?</p>
-        </div>
+        <InlineStack>
+          <Text variant='bodyMd' as='p'>
+            This is an irreversible process! Are you sure you want to delete
+            this user?
+          </Text>
+        </InlineStack>
       </Modal.Section>
     </Modal>
   );
