@@ -31,3 +31,34 @@ enum AdminRole {
   STUFF
   ADMIN
 }
+
+model Customer {
+  id        Int               @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String            @unique
+  password  String
+  phone     String?
+  note      String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  deletedAt DateTime?
+  addresses CustomerAddress[]
+}
+
+model CustomerAddress {
+  id         Int      @id @default(autoincrement())
+  customerId Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+  country    String?
+  firstName  String?
+  lastName   String?
+  company    String?
+  address    String?
+  apartment  String?
+  city       String?
+  postalCode String?
+  phone      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

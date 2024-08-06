@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { Page } from '@shopify/polaris';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { UsersNewForm } from '~/admin/components/UsersNewForm/UsersNewForm';
-import { usersNewFormValidator } from '~/admin/components/UsersNewForm/UsersNewForm.validator';
+import { CustomersNewForm } from '~/admin/components/CustomersNewForm/CustomersNewForm';
+import { customersNewFormValidator } from '~/admin/components/CustomersNewForm/CustomersNewForm.validator';
 import { ValidatedForm } from 'remix-validated-form';
 import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import { adminUsersNewAction } from '~/.server/admin/actions/users.new.action';
@@ -16,15 +16,15 @@ export default function AdminUsersNew() {
   );
 
   return (
-    <ValidatedForm validator={usersNewFormValidator} method='post'>
+    <ValidatedForm validator={customersNewFormValidator} method='post'>
       <Page
-        title='Create new user'
+        title='Create new customer'
         backAction={{
-          url: EAdminNavigation.users,
+          url: EAdminNavigation.customers,
         }}
         primaryAction={primaryAction()}
       >
-        <UsersNewForm />
+        <CustomersNewForm />
       </Page>
     </ValidatedForm>
   );
