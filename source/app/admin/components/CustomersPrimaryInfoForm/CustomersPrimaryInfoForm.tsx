@@ -1,18 +1,20 @@
 import { BlockStack, Card, FormLayout, Text } from '@shopify/polaris';
 import { FC } from 'react';
 import { ValidatedTextField } from '~/admin/ui/ValidatedTextField/ValidatedTextField';
-import { TUserDto } from '~/.server/admin/dto/user.dto';
+import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 import { splitFirstName } from '~/admin/utils/user.util';
 
-export type UsersPrimaryInfoFormProps = {
-  user: Pick<TUserDto, 'fullName' | 'email'>;
+export type CustomersPrimaryInfoFormProps = {
+  customer: Pick<TCustomerDto, 'firstName' | 'lastName' | 'email'>;
 };
 
-export const UsersPrimaryInfoForm: FC<UsersPrimaryInfoFormProps> = (props) => {
+export const CustomersPrimaryInfoForm: FC<CustomersPrimaryInfoFormProps> = (
+  props
+) => {
   const {
-    user: { fullName, email },
+    customer: { firstName, lastName, email },
   } = props;
-  const [firstName, lastName] = splitFirstName(fullName || '');
+  // const [firstName, lastName] = splitFirstName(firstName || '');
 
   return (
     <Card>

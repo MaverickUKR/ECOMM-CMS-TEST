@@ -1,19 +1,7 @@
 import { BlockStack, Card, FormLayout, Text } from '@shopify/polaris';
-import { FC } from 'react';
 import { ValidatedTextField } from '~/admin/ui/ValidatedTextField/ValidatedTextField';
-import { TUserDto } from '~/.server/admin/dto/user.dto';
-import { splitFirstName } from '~/admin/utils/user.util';
 
-export type UsersPrimaryInfoFormProps = {
-  user: Pick<TUserDto, 'fullName' | 'email'>;
-};
-
-export const UsersPrimaryInfoForm: FC<UsersPrimaryInfoFormProps> = (props) => {
-  const {
-    user: { fullName, email },
-  } = props;
-  const [firstName, lastName] = splitFirstName(fullName || '');
-
+export const PrimaryCustomerAddress = () => {
   return (
     <Card>
       <BlockStack gap='200'>
@@ -27,14 +15,12 @@ export const UsersPrimaryInfoForm: FC<UsersPrimaryInfoFormProps> = (props) => {
               type='text'
               name='firstName'
               autoComplete='given-name'
-              defaultValue={firstName}
             />
             <ValidatedTextField
               label='Last Name'
               type='text'
               name='lastName'
               autoComplete='family-name'
-              defaultValue={lastName}
             />
           </FormLayout.Group>
           <ValidatedTextField
@@ -42,7 +28,19 @@ export const UsersPrimaryInfoForm: FC<UsersPrimaryInfoFormProps> = (props) => {
             type='email'
             name='email'
             autoComplete='email'
-            defaultValue={email}
+          />
+          <ValidatedTextField
+            label='Phone'
+            type='tel'
+            name='phone'
+            autoComplete='tel'
+          />
+          <ValidatedTextField
+            label='Note'
+            type='text'
+            name='note'
+            multiline={3}
+            autoComplete='off'
           />
         </FormLayout>
       </BlockStack>

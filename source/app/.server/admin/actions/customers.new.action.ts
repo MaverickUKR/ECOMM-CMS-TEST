@@ -45,5 +45,5 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
     },
   });
 
-  return redirect(`${EAdminNavigation.users}/${newCustomer.id}`);
+  return redirect(`${EAdminNavigation.customers}/${newCustomer.id}`);
 }

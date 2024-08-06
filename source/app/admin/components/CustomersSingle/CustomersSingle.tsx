@@ -1,24 +1,20 @@
+// CustomersSingle.tsx
 import { BlockStack, Layout } from '@shopify/polaris';
 import { FC } from 'react';
-import { TUserDto } from '~/.server/admin/dto/user.dto';
-import { PrimaryInfoCard } from '~/admin/components/UsersSingle/PrimaryInfoCard';
-import { RoleCard } from '~/admin/components/UsersSingle/RoleCard';
+import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
+import { PrimaryInfoCard } from '~/admin/components/CustomersSingle/PrimaryInfoCard';
 
-export type UsersSingleProps = {
-  user: TUserDto;
+export type CustomersSingleProps = {
+  customer: TCustomerDto;
 };
 
-export const UsersSingle: FC<UsersSingleProps> = ({ user }) => {
+export const CustomersSingle: FC<CustomersSingleProps> = ({ customer }) => {
   return (
     <Layout>
       <Layout.Section>
         <BlockStack gap='500'>
-          <PrimaryInfoCard user={user} />
+          <PrimaryInfoCard customer={customer} />
         </BlockStack>
-      </Layout.Section>
-
-      <Layout.Section variant='oneThird'>
-        <RoleCard user={user} />
       </Layout.Section>
     </Layout>
   );

@@ -49,7 +49,7 @@ export const AdminCustomersTable: FC<CustomersTableProps> = ({
     ) => (
       <IndexTable.Row id={id} key={id} position={index}>
         <IndexTable.Cell>
-          <Link url={`${EAdminNavigation.users}/${id}`}>{email}</Link>
+          <Link url={`${EAdminNavigation.customers}/${id}`}>{email}</Link>
         </IndexTable.Cell>
         <IndexTable.Cell>{firstName}</IndexTable.Cell>
         <IndexTable.Cell>{lastName}</IndexTable.Cell>
