@@ -1,30 +1,31 @@
+// admin.customers._index.tsx
 import { useLoaderData } from '@remix-run/react';
 import { BlockStack, Card, Page, Text } from '@shopify/polaris';
 import { PlusIcon } from '@shopify/polaris-icons';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { adminUsersLoader } from '~/.server/admin/loaders/users.loader';
-import { AdminUsersTable } from '~/admin/components/UsersTable/UsersTable';
+import { adminCustomersLoader } from '~/.server/admin/loaders/customers.loader';
+import { AdminCustomersTable } from '~/admin/components/CustomersTable/CustomersTable';
 
-export const loader = adminUsersLoader;
+export const loader = adminCustomersLoader;
 
-export default function AdminUsersIndex() {
+export default function AdminCustomersIndex() {
   const data = useLoaderData<typeof loader>();
 
   return (
     <Page
       fullWidth
-      title='Users'
+      title='Customers'
       primaryAction={{
-        content: 'Create user',
+        content: 'Create customer',
         icon: PlusIcon,
-        accessibilityLabel: 'Create user',
-        url: EAdminNavigation.usersCreate,
+        accessibilityLabel: 'Create customer',
+        url: EAdminNavigation.customersCreate,
       }}
     >
-      <AdminUsersTable
-        users={data.users}
-        query={data.query}
-        pagination={data.pagination}
+      <AdminCustomersTable
+        customers={data.customers}
+        // query={data.query}
+        // pagination={data.pagination}
       />
 
       <Card>

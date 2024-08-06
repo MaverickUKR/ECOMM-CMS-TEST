@@ -5,9 +5,9 @@ import { validationError } from 'remix-validated-form';
 import { customersNewFormValidator } from '~/admin/components/CustomersNewForm/CustomersNewForm.validator';
 import { prisma } from '~/.server/shared/utils/prisma.util';
 import { hashPassword } from '~/.server/shared/utils/auth.util';
-import { joinFirstName } from '~/admin/utils/user.util';
+// import { joinFirstName } from '~/admin/utils/user.util';
 
-export async function adminUsersNewAction({ request }: ActionFunctionArgs) {
+export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
@@ -36,9 +36,10 @@ export async function adminUsersNewAction({ request }: ActionFunctionArgs) {
   // create new Customer
   const newCustomer = await prisma.customer.create({
     data: {
+      firstName,
+      lastName,
       email,
       password: await hashPassword(password),
-      fullName: joinFirstName(firstName, lastName),
       phone,
       note,
     },

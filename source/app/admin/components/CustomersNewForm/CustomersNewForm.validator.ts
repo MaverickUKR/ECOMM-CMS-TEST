@@ -19,10 +19,13 @@ export const passwordRule = z
   .string()
   .trim()
   .min(8, { message: 'Password must be greater than 8' });
+const phoneRegex = new RegExp(
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+);
 export const phoneRule = z
   .string()
-  .trim()
-  .regex(/^[0-9]{10,15}$/, { message: 'Must be a valid phone number' });
+  .regex(phoneRegex, 'Must be a valid phone number');
+
 export const noteRule = z
   .string()
   .trim()
