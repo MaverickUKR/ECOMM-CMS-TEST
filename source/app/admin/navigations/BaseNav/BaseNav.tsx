@@ -1,85 +1,57 @@
 import {
   HomeIcon,
-  WorkIcon,
+  OrderIcon,
   PersonIcon,
   ProductIcon,
-  OrderIcon,
+  WorkIcon,
 } from '@shopify/polaris-icons';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 import { NavLink } from '@remix-run/react';
-import { CSSProperties } from 'react';
+import { useLocation } from 'react-router';
+import { LinkItem } from '../NavItem';
 
-const navLinkStyle = (isActive: boolean): CSSProperties => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '8px 16px',
-  textDecoration: 'none',
-  borderRadius: '8px',
-  color: 'rgb(48, 48, 48)',
-  backgroundColor: isActive ? 'white' : 'lightgray',
-  fontFamily:
-    'Inter, -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
-  fontSize: '13px',
-  fontWeight: 700,
-  letterSpacing: 'normal',
-  textRendering: 'optimizeLegibility',
-  WebkitFontSmoothing: 'antialiased',
-  WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-  width: '200px',
-});
+const linkItems: LinkItem[] = [
+  { label: 'Home', url: '/admin/dashboard', icon: HomeIcon },
+  { label: 'Users', url: '/admin/users', icon: PersonIcon },
+  { label: 'Customers', url: '/admin/customers', icon: WorkIcon },
+  { label: 'Products', url: '/admin/products', icon: ProductIcon },
+  { label: 'Orders', url: '/admin/orders', icon: OrderIcon },
+];
 
-const iconStyle: CSSProperties = {
-  width: '20px',
-  height: '20px',
-  marginRight: '8px',
-};
-
-export const BaseNav = () => {
+export function BaseNav() {
   return (
-    <nav
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'lightgray',
-        padding: '0 20px',
-        paddingTop: '16px',
-      }}
-    >
-      <NavLink
-        to={EAdminNavigation.dashboard}
-        style={({ isActive }) => navLinkStyle(isActive)}
-      >
-        <HomeIcon style={iconStyle} />
-        Home
-      </NavLink>
-      <NavLink
-        to={EAdminNavigation.users}
-        style={({ isActive }) => navLinkStyle(isActive)}
-      >
-        <WorkIcon style={iconStyle} />
-        Users
-      </NavLink>
-      <NavLink
-        to={EAdminNavigation.customers}
-        style={({ isActive }) => navLinkStyle(isActive)}
-      >
-        <PersonIcon style={iconStyle} />
-        Customers
-      </NavLink>
-      <NavLink
-        to={EAdminNavigation.products}
-        style={({ isActive }) => navLinkStyle(isActive)}
-      >
-        <ProductIcon style={iconStyle} />
-        Products
-      </NavLink>
-      <NavLink
-        to={EAdminNavigation.orders}
-        style={({ isActive }) => navLinkStyle(isActive)}
-      >
-        <OrderIcon style={iconStyle} />
-        Orders
-      </NavLink>
+    <nav className='Polaris-Navigation'>
+      <div className='Polaris-Navigation__PrimaryNavigation Polaris-Scrollable'>
+        <ul className='Polaris-Navigation__Section'>
+          {linkItems.map((el) => (
+            <NavItem key={el.label} linkItem={el} />
+          ))}
+        </ul>
+      </div>
     </nav>
   );
-};
+}
+
+function NavItem({ linkItem }: { linkItem: LinkItem }) {
+  const { pathname } = useLocation();
+  const isActive =
+    pathname === linkItem.url
+      ? 'Polaris-Navigation__ItemInnerWrapper--selected'
+      : '';
+
+  return (
+    <li className='Polaris-Navigation__ListItem'>
+      <div className='Polaris-Navigation__ItemWrapper'>
+        <div className={`Polaris-Navigation__ItemInnerWrapper ${isActive}`}>
+          <linkItem.icon className='Polaris-Navigation__Icon' />
+          <NavLink
+            to={linkItem.url}
+            className='Polaris-Navigation__Item Polaris-Navigation__Text'
+            style={{ fontWeight: 'bold' }}
+          >
+            {linkItem.label}
+          </NavLink>
+        </div>
+      </div>
+    </li>
+  );
+}
