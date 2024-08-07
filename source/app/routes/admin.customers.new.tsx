@@ -9,7 +9,7 @@ import { adminCustomersNewAction } from '~/.server/admin/actions/customers.new.a
 
 export const action = adminCustomersNewAction;
 
-export default function AdminUsersNew() {
+export default function AdminCustomersNew() {
   const primaryAction = useCallback(
     () => <ValidatedSubmitButton text='save' variant='primary' />,
     []

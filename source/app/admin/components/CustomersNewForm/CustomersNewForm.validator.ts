@@ -1,3 +1,4 @@
+// CustomersNewForm.validator.ts
 import { withZod } from '@rvf/zod';
 import { z } from 'zod';
 
@@ -29,7 +30,7 @@ export const phoneRule = z
 export const noteRule = z
   .string()
   .trim()
-  .max(50, { message: 'Note must be less than 50 characters' });
+  .max(250, { message: 'Note must be less than 250 characters' });
 export const passwordConfirmRule = z.string();
 
 export const addressRule = z.object({

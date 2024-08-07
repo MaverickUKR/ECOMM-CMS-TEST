@@ -2,7 +2,7 @@ import { BlockStack, Card, FormLayout, Text } from '@shopify/polaris';
 import { FC } from 'react';
 import { ValidatedTextField } from '~/admin/ui/ValidatedTextField/ValidatedTextField';
 import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
-import { splitFirstName } from '~/admin/utils/user.util';
+// import { splitFirstName } from '~/admin/utils/user.util';
 
 export type CustomersPrimaryInfoFormProps = {
   customer: Pick<TCustomerDto, 'firstName' | 'lastName' | 'email'>;

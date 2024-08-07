@@ -1,5 +1,7 @@
+// customers.single.loader.ts
 import { json } from '@remix-run/node';
 import { prisma } from '~/.server/shared/utils/prisma.util';
+import { customerMapper } from '../mappers/customer.mapper';
 
 export const customersSingleLoader = async ({ params }) => {
   const customer = await prisma.customer.findUnique({
@@ -10,6 +12,6 @@ export const customersSingleLoader = async ({ params }) => {
   if (!customer) {
     throw new Response('Customer not found', { status: 404 });
   }
-
-  return json({ customer });
+  const mappedCustomer = customerMapper(customer);
+  return json({ customer: mappedCustomer });
 };

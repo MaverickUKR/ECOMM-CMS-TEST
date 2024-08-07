@@ -1,11 +1,11 @@
 import { BlockStack, Button, Card, InlineGrid, Text } from '@shopify/polaris';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { EditIcon } from '@shopify/polaris-icons';
 import { FC } from 'react';
 import {
   TCustomerAddressDto,
   TCustomerDto,
 } from '~/.server/admin/dto/customer.dto';
+import { EditIcon } from '@shopify/polaris-icons';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 
 export type PrimaryAddressInfoCardProps = {
   address: TCustomerAddressDto;
@@ -21,13 +21,13 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
       <BlockStack gap='200'>
         <InlineGrid columns='1fr auto'>
           <Text as='h2' variant='headingSm'>
-            Primary info
+            Address info
           </Text>
-          {/* <Button
-            url={`${EAdminNavigation.customers}/${customer.id}/primary`}
-            accessibilityLabel='Export variants'
+          <Button
+            url={`${EAdminNavigation.customers}/${customer.id}/address`}
+            accessibilityLabel='Edit address'
             icon={EditIcon}
-          /> */}
+          />
         </InlineGrid>
         <BlockStack gap='200'>
           <Text as='h3' variant='headingXs' fontWeight='medium'>
