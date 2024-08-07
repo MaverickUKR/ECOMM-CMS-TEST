@@ -9,3 +9,4 @@ tsconfig.json
 dashboard.loader.ts
 admin.users.$id_.primary.tsx
 schema.prisma
+backup.sql
