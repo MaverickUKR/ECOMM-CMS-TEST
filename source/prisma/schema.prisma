@@ -62,3 +62,61 @@ model CustomerAddress {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  products    Product[]
+}
+
+model Product {
+  id             Int             @id @default(autoincrement())
+  slug           String          @unique
+  title          String
+  description    String?
+  price          String?
+  compareAtPrice String?
+  costPerItem    String?
+  quantity       String?
+  sku            String?
+  barcode        String?
+  status         ProductStatus
+  avgRating      String?
+  totalReviews   String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
+  images         ProductImage[]
+  reviews        ProductReview[]
+  categoryId     Int
+  category       Category        @relation(fields: [categoryId], references: [id])
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  image     String
+}
+
+model ProductReview {
+  id         Int       @id @default(autoincrement())
+  productId  Int
+  product    Product   @relation(fields: [productId], references: [id])
+  customerId Int
+  rate       String?
+  review     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
+
+enum ProductStatus {
+  ACTIVE
+  DRAFT
+}

@@ -50,13 +50,13 @@ export const PrimaryCustomerAddress: FC<PrimaryCustomerAddressProps> = ({
               autoComplete='postal-code'
               defaultValue={address.postalCode || ''}
             />
-            <ValidatedTextField
+            {/* <ValidatedTextField
               label='Address'
               type='text'
               name='address'
               autoComplete='street-address'
               defaultValue={address.address || ''}
-            />
+            /> */}
             <ValidatedTextField
               label='Apartment'
               type='text'
