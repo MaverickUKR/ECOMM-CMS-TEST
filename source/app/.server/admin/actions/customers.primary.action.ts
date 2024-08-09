@@ -60,5 +60,5 @@ export async function adminCustomersPrimaryAction({
   });
 
   // redirect to user page
-  return redirect(`${EAdminNavigation.customers}/${customer.id}`);
+  return redirect(`${EAdminNavigation.customers}`);
 }

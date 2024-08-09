@@ -24,7 +24,7 @@ export default function AdminCustomerSingle() {
           content: 'Delete customer',
           accessibilityLabel: 'Delete customer',
           destructive: true,
-          onAction: () => setModalActive((s) => !s),
+          onAction: () => setModalActive((action) => !action),
         },
         {
           content: 'Security',

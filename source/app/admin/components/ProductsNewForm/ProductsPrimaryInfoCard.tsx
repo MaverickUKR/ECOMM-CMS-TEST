@@ -1,3 +1,4 @@
+// ProductsPrimaryInfoCard.tsx
 import { useActionData } from '@remix-run/react';
 import { BlockStack, Card, FormLayout, RadioButton } from '@shopify/polaris';
 import { ValidatedTextField } from '../../../admin/ui/ValidatedTextField/ValidatedTextField';

@@ -6,6 +6,7 @@ import { Prisma } from '@prisma/client';
 import type { SerializeFrom } from '@remix-run/server-runtime';
 import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
 import { customerMapper } from '../mappers/customer.mapper';
+import { sortValueToField } from '../loaders/users.loader';
 
 type CustomerOrderByWithRelationInput = Prisma.CustomerOrderByWithRelationInput;
 
@@ -31,12 +32,12 @@ export enum ECustomersSortVariant {
   deletedAt_desc = 'deletedAt_desc',
 }
 
-export const sortValueToField = <O extends object>(value: string) => {
-  const [field, order] = value.split('_');
-  return {
-    [field]: order,
-  } as O;
-};
+// export const sortValueToField = <O extends object>(value: string) => {
+//   const [field, order] = value.split('_');
+//   return {
+//     [field]: order,
+//   } as O;
+// };
 
 export const customerQueryValidator = withZod(
   z.object({

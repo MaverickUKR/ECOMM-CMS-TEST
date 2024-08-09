@@ -1,3 +1,4 @@
+// ProductsNewForm.tsx
 import { BlockStack, Layout } from '@shopify/polaris';
 import { ProductsPrimaryInfoCard } from '../../../admin/components/ProductsNewForm/ProductsPrimaryInfoCard';
 

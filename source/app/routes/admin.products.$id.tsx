@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import { Page } from '@shopify/polaris';
 import { adminProductsSingleLoader } from '~/.server/admin/loaders/products.single.loader';
@@ -9,13 +9,13 @@ import { ProductsPrimaryInfoForm } from '../admin/components/ProductsPrimaryInfo
 import { ValidatedForm } from 'remix-validated-form';
 import { productsNewFormValidator } from '~/admin/components/ProductsNewForm/ProductsNewForm.validator';
 import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
-
+import { DeleteProductModal } from '../admin/components/ProductsSingle/DeleteProductModal';
 export const loader = adminProductsSingleLoader;
 export const action = adminProductsPrimaryAction;
 
 export default function AdminProductsSingle() {
   const { product } = useLoaderData<{ product: TProductDto }>();
-
+  const [modalActive, setModalActive] = useState(false);
   const primaryAction = useCallback(
     () => <ValidatedSubmitButton text='save' variant='primary' />,
     []
@@ -32,9 +32,22 @@ export default function AdminProductsSingle() {
         backAction={{
           url: EAdminNavigation.products,
         }}
+        secondaryActions={[
+          {
+            content: 'Delete customer',
+            accessibilityLabel: 'Delete customer',
+            destructive: true,
+            onAction: () => setModalActive((s) => !s),
+          },
+        ]}
         primaryAction={primaryAction()}
       >
         <ProductsPrimaryInfoForm product={product} />
+        <DeleteProductModal
+          id={product.id}
+          modalActive={modalActive}
+          setModalActive={setModalActive}
+        />
       </Page>
     </ValidatedForm>
   );
