@@ -1,27 +1,15 @@
-import { Card, IndexTable, Link } from '@shopify/polaris';
 import { FC, useMemo } from 'react';
+import { Card, IndexTable, Link, Thumbnail } from '@shopify/polaris';
 import type { TProductDto } from '~/.server/admin/dto/products.dto';
 import type { NonEmptyArray } from '@shopify/polaris/build/ts/src/types';
 import { IndexTableHeading } from '@shopify/polaris/build/ts/src/components/IndexTable/IndexTable';
 import { EAdminNavigation } from '../../../admin/constants/navigation.constant';
-// import { UserRoleBadge } from '~/admin/components/UsersTable/UserRoleBadge';
-// import type { TAdminUsersLoaderData } from '~/.server/admin/loaders/users.loader';
-// import { AdminUsersTableFilters } from '~/admin/components/UsersTable/UsersTableFilters';
-// import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
-// import { usePagination } from '~/admin/hooks/usePagination';
 
 export interface ProductsTableProps {
   products: TProductDto[];
-  // query?: TAdminUsersLoaderData['query'];
-  // pagination: IOffsetPaginationInfoDto;
 }
 
-export const AdminProductsTable: FC<ProductsTableProps> = ({
-  products,
-  // query,
-  // pagination,
-}) => {
-  // const paginationProps = usePagination(pagination);
+export const AdminProductsTable: FC<ProductsTableProps> = ({ products }) => {
   const resourceName = useMemo(
     () => ({
       singular: 'product',
@@ -32,6 +20,7 @@ export const AdminProductsTable: FC<ProductsTableProps> = ({
 
   const headings: NonEmptyArray<IndexTableHeading> = useMemo(
     () => [
+      { title: 'Image' },
       { title: 'Product' },
       { title: 'Status' },
       { title: 'Quantity' },
@@ -46,6 +35,7 @@ export const AdminProductsTable: FC<ProductsTableProps> = ({
   const rowMarkup = products.map(
     (
       {
+        images,
         title,
         status,
         id,
@@ -59,28 +49,44 @@ export const AdminProductsTable: FC<ProductsTableProps> = ({
     ) => (
       <IndexTable.Row id={id} key={id} position={index}>
         <IndexTable.Cell>
+          {images && images.length > 0 ? (
+            <Thumbnail
+              source={images[0].image}
+              size='small'
+              alt={title || 'No image available'}
+            />
+          ) : (
+            <Thumbnail
+              source='https://via.placeholder.com/50'
+              size='small'
+              alt='No image available'
+            />
+          )}
+        </IndexTable.Cell>
+        <IndexTable.Cell>
           <Link url={`${EAdminNavigation.products}/${id}`}>{title}</Link>
         </IndexTable.Cell>
-        <IndexTable.Cell>{title}</IndexTable.Cell>
         <IndexTable.Cell>{status}</IndexTable.Cell>
         <IndexTable.Cell>{quantity}</IndexTable.Cell>
-        <IndexTable.Cell>{category.title}</IndexTable.Cell>
+        <IndexTable.Cell>
+          {category ? category.title : 'No category'}
+        </IndexTable.Cell>
         <IndexTable.Cell>{createdAt}</IndexTable.Cell>
         <IndexTable.Cell>{updatedAt}</IndexTable.Cell>
-        <IndexTable.Cell>{deletedAt}</IndexTable.Cell>
+        <IndexTable.Cell>
+          {deletedAt ? deletedAt : 'Not deleted'}
+        </IndexTable.Cell>
       </IndexTable.Row>
     )
   );
 
   return (
     <Card padding='0'>
-      {/* <AdminUsersTableFilters query={query} /> */}
       <IndexTable
         resourceName={resourceName}
         itemCount={products.length}
         selectable={false}
         headings={headings}
-        // pagination={paginationProps}
       >
         {rowMarkup}
       </IndexTable>

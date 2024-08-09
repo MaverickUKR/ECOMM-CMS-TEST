@@ -1,3 +1,4 @@
+// PrimaryAddressInfoCard.tsx
 import { BlockStack, Button, Card, InlineGrid, Text } from '@shopify/polaris';
 import { FC } from 'react';
 import {
@@ -8,12 +9,12 @@ import { EditIcon } from '@shopify/polaris-icons';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 
 export type PrimaryAddressInfoCardProps = {
-  address: TCustomerAddressDto;
+  addresses: TCustomerAddressDto;
   customer: TCustomerDto;
 };
 
 export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
-  address,
+  addresses,
   customer,
 }) => {
   return (
@@ -34,13 +35,13 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             Company
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.company}
+            {addresses.company}
           </Text>
           <Text as='h3' variant='headingXs' fontWeight='medium'>
             Country
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.country}
+            {addresses.country}
           </Text>
         </BlockStack>
         <BlockStack gap='200'>
@@ -48,7 +49,7 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             City
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.city}
+            {addresses.city}
           </Text>
         </BlockStack>
         <BlockStack gap='200'>
@@ -56,7 +57,7 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             Address
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.address}
+            {addresses.address}
           </Text>
         </BlockStack>
         <BlockStack gap='200'>
@@ -64,7 +65,7 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             Postal code
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.postalCode}
+            {addresses.postalCode}
           </Text>
         </BlockStack>
       </BlockStack>

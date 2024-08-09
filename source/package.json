@@ -22,6 +22,7 @@
     "@rvf/zod": "^0.0.16",
     "@shopify/polaris": "^13.8.0",
     "bcryptjs": "^2.4.3",
+    "date-fns": "^3.6.0",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

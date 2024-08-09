@@ -76,7 +76,6 @@ model Category {
 
 model Product {
   id             Int             @id @default(autoincrement())
-  slug           String          @unique
   title          String
   description    String?
   price          String?
@@ -93,8 +92,8 @@ model Product {
   deletedAt      DateTime?
   images         ProductImage[]
   reviews        ProductReview[]
-  categoryId     Int
-  category       Category        @relation(fields: [categoryId], references: [id])
+  categoryId     Int?
+  category       Category?       @relation(fields: [categoryId], references: [id])
 }
 
 model ProductImage {

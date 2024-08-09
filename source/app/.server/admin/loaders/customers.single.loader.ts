@@ -1,4 +1,3 @@
-// customers.single.loader.ts
 import { json } from '@remix-run/node';
 import { prisma } from '~/.server/shared/utils/prisma.util';
 import { customerMapper } from '../mappers/customer.mapper';

@@ -1,14 +1,157 @@
-// customers.loader.ts
-import { json } from '@remix-run/node';
+import { json, LoaderFunctionArgs } from '@remix-run/node';
 import { prisma } from '~/.server/shared/utils/prisma.util';
-import { customerMapper } from '~/.server/admin/mappers/customer.mapper';
+import { withZod } from '@rvf/zod';
+import { z } from 'zod';
+import { Prisma } from '@prisma/client';
+import type { SerializeFrom } from '@remix-run/server-runtime';
+import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
+import { customerMapper } from '../mappers/customer.mapper';
 
-export const adminCustomersLoader = async () => {
+type CustomerOrderByWithRelationInput = Prisma.CustomerOrderByWithRelationInput;
+
+export enum EAccountStatus {
+  active = 'active',
+  disabled = 'disabled',
+}
+
+export enum ECustomersSortVariant {
+  id_asc = 'id_asc',
+  id_desc = 'id_desc',
+  email_asc = 'email_asc',
+  email_desc = 'email_desc',
+  firstName_asc = 'firstName_asc',
+  firstName_desc = 'firstName_desc',
+  lastName_asc = 'lastName_asc',
+  lastName_desc = 'lastName_desc',
+  createdAt_asc = 'createdAt_asc',
+  createdAt_desc = 'createdAt_desc',
+  updatedAt_asc = 'updatedAt_asc',
+  updatedAt_desc = 'updatedAt_desc',
+  deletedAt_asc = 'deletedAt_asc',
+  deletedAt_desc = 'deletedAt_desc',
+}
+
+export const sortValueToField = <O extends object>(value: string) => {
+  const [field, order] = value.split('_');
+  return {
+    [field]: order,
+  } as O;
+};
+
+export const customerQueryValidator = withZod(
+  z.object({
+    take: z.coerce.number().int().positive().optional(),
+    skip: z.coerce.number().int().nonnegative().optional(),
+    q: z.string().optional(),
+    accountStatus: z.nativeEnum(EAccountStatus).optional(),
+    sort: z.nativeEnum(ECustomersSortVariant).optional(),
+  })
+);
+
+export async function adminCustomersLoader({ request }: LoaderFunctionArgs) {
+  const { searchParams } = new URL(request.url);
+  const { data } = await customerQueryValidator.validate(searchParams);
+
+  let take = 2;
+  let skip = 0;
+  let searchQuery;
+  let filterAccountStatusQuery;
+  let orderBy: CustomerOrderByWithRelationInput = { id: 'desc' as const };
+
+  if (data?.take) {
+    take = data.take;
+  }
+
+  if (data?.skip) {
+    skip = data.skip;
+  }
+
+  if (data?.q) {
+    searchQuery = {
+      OR: [
+        { email: { contains: data?.q, mode: 'insensitive' as const } },
+        { firstName: { contains: data?.q, mode: 'insensitive' as const } },
+        { lastName: { contains: data?.q, mode: 'insensitive' as const } },
+        { phone: { contains: data?.q, mode: 'insensitive' as const } },
+        {
+          addresses: {
+            some: {
+              OR: [
+                { phone: { contains: data?.q, mode: 'insensitive' as const } },
+                {
+                  country: { contains: data?.q, mode: 'insensitive' as const },
+                },
+                { city: { contains: data?.q, mode: 'insensitive' as const } },
+                {
+                  address: { contains: data?.q, mode: 'insensitive' as const },
+                },
+              ],
+            },
+          },
+        },
+      ],
+    };
+  }
+
+  if (data?.accountStatus === EAccountStatus.disabled) {
+    filterAccountStatusQuery = {
+      deletedAt: {
+        not: null,
+      },
+    };
+  }
+
+  if (data?.accountStatus === EAccountStatus.active) {
+    filterAccountStatusQuery = {
+      deletedAt: null,
+    };
+  }
+
+  if (data?.sort) {
+    orderBy = sortValueToField<CustomerOrderByWithRelationInput>(data.sort);
+  }
+
+  const pagination: IOffsetPaginationInfoDto = {
+    take,
+    skip,
+    hasNext: false,
+    hasPrevious: skip > 0,
+    total: 0,
+    count: 0,
+  };
+
   const customers = await prisma.customer.findMany({
-    include: { addresses: true },
+    take,
+    skip,
+    where: {
+      ...searchQuery,
+      ...filterAccountStatusQuery,
+    },
+    orderBy,
+    include: {
+      addresses: true,
+    },
   });
+
+  pagination.count = customers.length;
+  pagination.total = await prisma.customer.count({
+    where: {
+      ...searchQuery,
+      ...filterAccountStatusQuery,
+    },
+  });
+
+  pagination.hasNext = skip + take < pagination.total;
 
   const customerDtos = customers.map(customerMapper);
 
-  return json({ customers: customerDtos });
-};
+  return json({
+    customers: customerDtos,
+    query: data,
+    pagination,
+  });
+}
+
+export type TAdminCustomersLoaderData = SerializeFrom<
+  typeof adminCustomersLoader
+>;

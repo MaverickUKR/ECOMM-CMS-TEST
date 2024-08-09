@@ -23,22 +23,22 @@ export const customerMapper = (
 };
 
 export const customerAddressMapper = (
-  address: CustomerAddress
+  addresses: CustomerAddress
 ): TCustomerAddressDto => {
   return {
-    id: String(address.id),
-    customerId: address.customerId,
-    country: address.country,
-    firstName: address.firstName,
-    lastName: address.lastName,
-    company: address.company,
-    address: address.address,
-    apartment: address.apartment,
-    city: address.city,
-    postalCode: address.postalCode,
-    phone: address.phone,
-    createdAt: address.createdAt.toJSON(),
-    updatedAt: address.updatedAt.toJSON(),
+    id: String(addresses.id),
+    customerId: addresses.customerId,
+    country: addresses.country,
+    firstName: addresses.firstName,
+    lastName: addresses.lastName,
+    company: addresses.company,
+    address: addresses.address,
+    apartment: addresses.apartment,
+    city: addresses.city,
+    postalCode: addresses.postalCode,
+    phone: addresses.phone,
+    createdAt: addresses.createdAt.toJSON(),
+    updatedAt: addresses.updatedAt.toJSON(),
   };
 };
 

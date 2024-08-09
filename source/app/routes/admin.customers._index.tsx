@@ -1,4 +1,3 @@
-// admin.customers._index.tsx
 import { useLoaderData } from '@remix-run/react';
 import { BlockStack, Card, Page, Text } from '@shopify/polaris';
 import { PlusIcon } from '@shopify/polaris-icons';
@@ -24,8 +23,8 @@ export default function AdminCustomersIndex() {
     >
       <AdminCustomersTable
         customers={data.customers}
-        // query={data.query}
-        // pagination={data.pagination}
+        query={data.query}
+        pagination={data.pagination}
       />
 
       <Card>

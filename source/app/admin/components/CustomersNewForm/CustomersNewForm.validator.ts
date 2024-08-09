@@ -1,4 +1,3 @@
-// CustomersNewForm.validator.ts
 import { withZod } from '@rvf/zod';
 import { z } from 'zod';
 
@@ -32,16 +31,21 @@ export const noteRule = z
   .trim()
   .max(250, { message: 'Note must be less than 250 characters' });
 export const passwordConfirmRule = z.string();
-
-export const addressRule = z.object({
-  company: z.string().optional(),
-  country: z.string().optional(),
-  city: z.string().optional(),
-  address: z.string().optional(),
-  apartment: z.string().optional(),
-  postalCode: z.string().optional(),
-  phone: z.string().optional(),
-});
+export const companyRule = z.string().optional();
+export const countryRule = z.string().optional();
+export const cityRule = z.string().optional();
+export const addressRule = z.string().optional();
+export const apartmentRule = z.string().optional();
+export const postalCodeRule = z.string().optional();
+// export const addressesRule = z.object({
+//   company: z.string().optional(),
+//   country: z.string().optional(),
+//   city: z.string().optional(),
+//   address: z.string().optional(),
+//   apartment: z.string().optional(),
+//   postalCode: z.string().optional(),
+//   phone: z.string().optional(),
+// });
 
 export const customersNewFormValidator = withZod(
   z
@@ -53,7 +57,12 @@ export const customersNewFormValidator = withZod(
       passwordConfirm: passwordConfirmRule,
       phone: phoneRule,
       note: noteRule,
+      company: companyRule,
+      country: countryRule,
+      city: cityRule,
       address: addressRule,
+      apartment: apartmentRule,
+      postalCode: postalCodeRule,
     })
     .refine((data) => data.password === data.passwordConfirm, {
       message: "Passwords don't match",

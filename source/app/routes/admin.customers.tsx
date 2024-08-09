@@ -1,4 +1,3 @@
-// admin.customers.tsx
 import { BaseLayout } from '~/admin/layouts/BaseLayout/BaseLayout';
 import { Outlet, useRouteLoaderData } from '@remix-run/react';
 import { adminLoader } from '~/.server/admin/loaders/admin.loader';

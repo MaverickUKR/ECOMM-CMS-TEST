@@ -19,7 +19,7 @@ export type TProductDto = Omit<Product, ExcludedField> & {
   images: TProductImageDto[];
   reviews: TProductReviewDto[];
   category: TCategoryDto;
-  categoryId: number;
+  // categoryId: string;
   price: string;
   compareAtPrice: string | null;
   costPerItem: string | null;

@@ -1,5 +1,5 @@
 export interface FormErrors {
-  slug?: string;
+  // slug?: string;
   title?: string;
   description?: string;
   price?: string;
@@ -9,7 +9,7 @@ export interface FormErrors {
   sku?: string;
   barcode?: string;
   status?: string;
-  categoryId?: string;
+  // categoryId?: string;
   avgRating?: string;
   totalReviews?: string;
   images?: { image?: string }[];

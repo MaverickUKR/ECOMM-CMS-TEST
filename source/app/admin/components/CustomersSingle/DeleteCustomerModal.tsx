@@ -1,79 +1,47 @@
-import { FC } from 'react';
-import { Button, FormLayout, InlineStack, Modal, Text } from '@shopify/polaris';
-import {
-  ValidatedForm,
-  Validator,
-  validationError,
-} from 'remix-validated-form';
-import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
+import { withZod } from '@rvf/zod';
+import { Modal, InlineStack, Button } from '@shopify/polaris';
+import { ValidatedForm } from 'remix-validated-form';
+import { z } from 'zod';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 import { ValidatedErrorBanner } from '~/admin/ui/ValidatedErrorBanner/ValidatedErrorBanner';
-import { customerDeleteValidator } from '../../../admin/components/CustomersSingle/CustomerDelete.validator';
+import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 
-type DeleteUserModalProps = {
-  active: boolean;
-  toggleActive: () => void;
-  handleDelete: () => void;
-  error?: string;
+type DeleteCustomerModalProps = {
+  id: string;
+  modalActive: boolean;
+  setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const deleteUserValidator: Validator<{ deletedAt: string | null }> = {
-  validate: async (data) => {
-    const validation = customerDeleteValidator.safeParse(data);
-    if (!validation.success) {
-      return validationError({
-        fieldErrors: {
-          deletedAt: validation.error.errors.map((e) => e.message).join(', '),
-        },
-      });
-    }
-    return { errors: {}, values: validation.data };
-  },
-};
-
-const DeleteUserModal: FC<DeleteUserModalProps> = ({
-  active,
-  toggleActive,
-  handleDelete,
-  error,
-}) => {
+export function DeleteCustomerModal({
+  id,
+  modalActive,
+  setModalActive,
+}: DeleteCustomerModalProps) {
   return (
     <Modal
-      size='small'
-      open={active}
-      onClose={toggleActive}
-      title='Delete user'
+      open={modalActive}
+      onClose={() => setModalActive((s) => !s)}
+      title='You sure you want to delete this customer?'
     >
-      <ValidatedForm
-        validator={deleteUserValidator}
-        method='post'
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleDelete();
-        }}
-      >
-        <input type='hidden' name='_method' value='delete' />
-        <Modal.Section>
-          <FormLayout>
-            <ValidatedErrorBanner name='deletedAt' status='critical' />
-            <Text as='p' variant='bodyMd'>
-              Are you sure you want to delete this customer? This is an
-              irreversible process.
-            </Text>
-          </FormLayout>
-        </Modal.Section>
-        <Modal.Section>
-          <InlineStack direction='row-reverse' align='end' gap='200'>
-            <ValidatedSubmitButton
-              text='Delete'
-              variant='primary'
-              onClick={handleDelete}
-            />
-            <Button onClick={toggleActive}>Cancel</Button>
+      <Modal.Section>
+        <ValidatedForm
+          action={`${EAdminNavigation.customers}/${id}`}
+          method='post'
+          validator={withZod(z.object({}))}
+        >
+          <ValidatedErrorBanner />
+          <input type='hidden' name='actionType' value='delete' />
+          <InlineStack gap='200' align='end'>
+            <Button
+              variant='secondary'
+              onClick={() => setModalActive((s) => !s)}
+            >
+              No
+            </Button>
+            <ValidatedSubmitButton text='Yes' />
           </InlineStack>
-        </Modal.Section>
-      </ValidatedForm>
+        </ValidatedForm>
+      </Modal.Section>
     </Modal>
   );
-};
-
-export default DeleteUserModal;
+}

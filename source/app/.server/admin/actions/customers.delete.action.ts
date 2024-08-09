@@ -1,20 +1,19 @@
-import { ActionFunctionArgs, redirect } from '@remix-run/node';
-import { prisma } from '../../shared/utils/prisma.util';
+import { Customer } from '@prisma/client';
+import { redirect } from '@remix-run/react';
+import { validationError } from 'remix-validated-form';
+import { prisma } from '~/.server/shared/utils/prisma.util';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 
-export const customersDeleteAction = async ({
-  request,
-  params,
-}: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const method = formData.get('_method');
-
-  if (method === 'delete') {
-    await prisma.customer.delete({
-      where: { id: Number(params.id) },
+export async function adminCustomersDeleteAction(customer: Customer) {
+  if (customer.deletedAt) {
+    return validationError({
+      fieldErrors: { error: 'Customer already deleted' },
     });
-
-    return redirect('/admin/customers');
   }
 
-  throw new Response('Invalid method', { status: 400 });
-};
+  await prisma.customer.update({
+    where: { id: customer.id },
+    data: { deletedAt: new Date() },
+  });
+  return redirect(EAdminNavigation.customers);
+}

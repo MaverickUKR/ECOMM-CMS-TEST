@@ -1,4 +1,3 @@
-// admin.customers.$id_.security.tsx
 import React, { useCallback } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import { Page } from '@shopify/polaris';

@@ -17,7 +17,7 @@ export const CustomersSingle: FC<CustomersSingleProps> = ({ customer }) => {
           {customer.addresses.map((address) => (
             <PrimaryAddressInfoCard
               key={address.id}
-              address={address}
+              addresses={address}
               customer={customer}
             />
           ))}

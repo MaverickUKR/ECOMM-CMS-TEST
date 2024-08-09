@@ -4,24 +4,23 @@ import type { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 import type { NonEmptyArray } from '@shopify/polaris/build/ts/src/types';
 import { IndexTableHeading } from '@shopify/polaris/build/ts/src/components/IndexTable/IndexTable';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-// import { UserRoleBadge } from '~/admin/components/UsersTable/UserRoleBadge';
-// import type { TAdminUsersLoaderData } from '~/.server/admin/loaders/users.loader';
-// import { AdminUsersTableFilters } from '~/admin/components/UsersTable/UsersTableFilters';
-// import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
-// import { usePagination } from '~/admin/hooks/usePagination';
+import type { TAdminCustomersLoaderData } from '~/.server/admin/loaders/customers.loader';
+import { AdminCustomersTableFilters } from '~/admin/components/CustomersTable/CustomersTableFilters';
+import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
+import { usePagination } from '~/admin/hooks/usePagination';
 
 export interface CustomersTableProps {
   customers: TCustomerDto[];
-  // query?: TAdminUsersLoaderData['query'];
-  // pagination: IOffsetPaginationInfoDto;
+  query?: TAdminCustomersLoaderData['query'];
+  pagination: IOffsetPaginationInfoDto;
 }
 
 export const AdminCustomersTable: FC<CustomersTableProps> = ({
   customers,
-  // query,
-  // pagination,
+  query,
+  pagination,
 }) => {
-  // const paginationProps = usePagination(pagination);
+  const paginationProps = usePagination(pagination);
   const resourceName = useMemo(
     () => ({
       singular: 'customer',
@@ -62,13 +61,13 @@ export const AdminCustomersTable: FC<CustomersTableProps> = ({
 
   return (
     <Card padding='0'>
-      {/* <AdminUsersTableFilters query={query} /> */}
+      <AdminCustomersTableFilters query={query} />
       <IndexTable
         resourceName={resourceName}
         itemCount={customers.length}
         selectable={false}
         headings={headings}
-        // pagination={paginationProps}
+        pagination={paginationProps}
       >
         {rowMarkup}
       </IndexTable>

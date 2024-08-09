@@ -1,16 +1,15 @@
 // PrimaryCustomerAddress.tsx
 import { BlockStack, Card, FormLayout, Text } from '@shopify/polaris';
 import { ValidatedTextField } from '~/admin/ui/ValidatedTextField/ValidatedTextField';
-
 import { FC } from 'react';
 import { TCustomerAddressDto } from '~/.server/admin/dto/customer.dto';
 
 export type PrimaryCustomerAddressProps = {
-  address?: Partial<TCustomerAddressDto>;
+  addresses?: Partial<TCustomerAddressDto>;
 };
 
 export const PrimaryCustomerAddress: FC<PrimaryCustomerAddressProps> = ({
-  address = {},
+  addresses = {},
 }) => {
   return (
     <Card>
@@ -25,21 +24,21 @@ export const PrimaryCustomerAddress: FC<PrimaryCustomerAddressProps> = ({
               type='text'
               name='company'
               autoComplete='organization'
-              defaultValue={address.company || ''}
+              defaultValue={addresses.company || ''}
             />
             <ValidatedTextField
               label='Country'
               type='text'
               name='country'
               autoComplete='country-name'
-              defaultValue={address.country || ''}
+              defaultValue={addresses.country || ''}
             />
             <ValidatedTextField
               label='City'
               type='text'
               name='city'
               autoComplete='address-level2'
-              defaultValue={address.city || ''}
+              defaultValue={addresses.city || ''}
             />
           </FormLayout.Group>
           <FormLayout.Group>
@@ -48,21 +47,21 @@ export const PrimaryCustomerAddress: FC<PrimaryCustomerAddressProps> = ({
               type='text'
               name='postalCode'
               autoComplete='postal-code'
-              defaultValue={address.postalCode || ''}
+              defaultValue={addresses.postalCode || ''}
             />
-            {/* <ValidatedTextField
+            <ValidatedTextField
               label='Address'
               type='text'
               name='address'
               autoComplete='street-address'
-              defaultValue={address.address || ''}
-            /> */}
+              defaultValue={addresses.address || ''}
+            />
             <ValidatedTextField
               label='Apartment'
               type='text'
               name='apartment'
               autoComplete='address-line2'
-              defaultValue={address.apartment || ''}
+              defaultValue={addresses.apartment || ''}
             />
           </FormLayout.Group>
         </FormLayout>
